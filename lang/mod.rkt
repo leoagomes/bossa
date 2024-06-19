@@ -1,5 +1,11 @@
 #lang at-exp racket
 
+;; limitations:
+;; - no require
+;; - no keyword arguments
+
+;; no when yet
+
 ;; TODO: fail with better error message on unsupported syntax
 
 (define-syntax-rule (B-define (name arg ...) body-1 body-rest ...)
@@ -37,30 +43,23 @@
      #'(B-let ([k key])
          (B-cond [(equal? k value) => then-expr] ...
                  [else => else-expr]))]))
-;; limitations:
-;; - no require
-;; - no keyword arguments
-
-;; no when yet
 
 (provide #%plain-app
          #%top
+        ;  #%top-interaction ; todo!
          #%module-begin
+         #%datum
+         lambda
          if and or not
          else
          =>
          + - *
-        ;  #%top-interaction ; todo!
-         zero?
-         #%datum
-         begin
-         lambda)
+         zero?)
 (provide (rename-out [#%plain-app #%app]))
 (provide (rename-out [B-define define]
                      [B-let let]
                      [B-let-values let-values]
                      [B-cond cond]
-                     [B-case case]
-                     #;[B-datum #%datum]))
+                     [B-case case]))
 
 
