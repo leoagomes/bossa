@@ -33,7 +33,7 @@ jobs:
         run: raco setup --check-pkg-deps --unused-pkg-deps bossa
       - name: Copy docs to the right place
         run: |
-          cp -r docs "${{ steps.pages.outputs.base_path }}/docs"
+          cp -r doc "${{ steps.pages.outputs.base_path }}/doc"
           cp index.html "${{ steps.pages.outputs.base_path }}/index.html"
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
