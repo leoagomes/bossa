@@ -1,0 +1,19 @@
+#lang bossa
+
+;; this is stolen from victor's demo but should work just the same
+
+;; map-reduce = simple divide and conquer! :)
+(define (map-reduce d i map reduce)
+  (case d
+    [(0)  => (map i)]
+    [else => (let ([left  (map-reduce (- d 1) (* i 2) map reduce)]
+                   [right (map-reduce (- d 1) (+ (* i 2) 1) map reduce)])
+              (reduce left right))]))
+
+;; reduces 67 million data points
+(define (main)
+  (let ([map    (lambda (index) (* index 777))]
+        [reduce (lambda (x y) (+ (* x y)))])
+    (map-reduce 24 0 map reduce)))
+
+(main)
