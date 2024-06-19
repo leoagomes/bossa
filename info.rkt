@@ -7,3 +7,4 @@
 (define version "0.0")
 (define pkg-authors '(leoagomes))
 (define license '(MIT))
+(define raco-commands '(("bossa" bossa/cli "runs the bossa cli" #f)))
