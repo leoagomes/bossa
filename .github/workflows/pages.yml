@@ -5,41 +5,45 @@ on:
     branches:
       - main
 
-  workflow_dispatch:
+workflow_dispatch:
 
-  permissions:
-    contents: read
-    pages: write
-    id-token: write
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: Bogdanp/setup-racket@v1.9.1
-          with:
-            architecture: x64
-            distribution: full
-            variant: BC
-            version: stable
-        - name: Installing bossa and its dependencies
-          run: raco pkg install --no-docs --auto --name bossa
-        - name: Compiling bossa and building its docs
-          run: raco setup --check-pkg-deps --unused-pkg-deps bossa
-        - name: Copy artifacts
-          run: |
-            cp -r docs/* "${{ steps.pages.outputs.base_path }}/docs"
-            cp index.html "${{ steps.pages.outputs.base_path }}/index.html"
-        - name: Upload artifacts
-          uses: actions/upload-pages-artifact@v3
-    deploy:
-      environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-      runs-on: ubuntu-latest
-      needs: build
-      steps:
-        - name: Deploy to GitHub Pages
-          id: deployment
-          uses: actions/deploy-pages@v4
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Bogdanp/setup-racket@v1.9.1
+        with:
+          architecture: x64
+          distribution: full
+          variant: BC
+          version: stable
+      - name: Installing bossa and its dependencies
+        run: raco pkg install --no-docs --auto --name bossa
+      - name: Compiling bossa and building its docs
+        run: raco setup --check-pkg-deps --unused-pkg-deps bossa
+      - name: Copy docs to the right place
+        run: |
+          cp -r docs/* "${{ steps.pages.outputs.base_path }}/docs"
+          cp index.html "${{ steps.pages.outputs.base_path }}/index.html"
+      - name: Upload artifacts
+        uses: actions/upload-pages-artifact@v3
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
