@@ -53,7 +53,7 @@
          if and or not
          else
          =>
-         + - *
+         + - * / modulo equal? < > <= >= bitwise-and bitwise-ior bitwise-xor
          zero?)
 (provide (rename-out [#%plain-app #%app]))
 (provide (rename-out [B-define define]
@@ -63,3 +63,25 @@
                      [B-case case]))
 
 
+; to support:
+
+;         <Operation> ::=
+; | "+"
+; | "-"
+; | "*"
+; | "/"
+; | "%"
+; | "="
+; | "!"
+; | "<"
+; | ">"
+; | "&"
+; | "|"
+; | "^"
+; | ">>"  -- (SHR)
+; | "<<"  -- (SHL)
+; | ":-"  -- (FP_SUB)
+; | ":/"  -- (FP_DIV)
+; | ":%"  -- (FP_REM)
+; | ":>>" -- (FP_SHR)
+; | ":<<" -- (FP_SHL)

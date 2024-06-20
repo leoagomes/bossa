@@ -7,7 +7,7 @@
 
 @define[hvm-gh "https://github.com/HigherOrderCO/hvm"]
 @define[r7rs-small "https://small.r7rs.org/"]
-@define[bossa-gh "https://github.com/leoagomes/polylisp"]
+@define[bossa-gh "https://github.com/leoagomes/bossa"]
 
 Bossa is a Scheme-based programming language hosted on Racket that compiles to the
 @hyperlink[hvm-gh]{HVM}. It is currently a @italic{very reduced} subset of
@@ -34,4 +34,15 @@ raco setup --check-pkg-deps --unused-pkg-deps bossa
 
 Racket should now recognize @code{#lang bossa}.
 
+@section{Introduction}
+
+The Bossa language is based on scheme and shares a lot of its syntax with Racket.
+
+A Bossa file can define functions using the @code{define} form, which is similar to Racket's, but only
+supports the function shorthand. Bossa also supports "anonymous" functions with the @code{lambda} form.
+
+The language also supports your usual integer operations:
+@(map (lambda (x) (code (symbol->string x))) '(+ - * /)).
+
+@section{Language Reference}
 
